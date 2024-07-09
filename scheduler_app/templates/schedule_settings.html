@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Schedule Settings</h2>
+<form id="scheduleSettingsForm">
+    <div class="mb-3">
+        <label for="roster_start" class="form-label">Roster Start Date</label>
+        <input type="date" class="form-control" id="roster_start" name="roster_start" value="{{ settings.roster_start.strftime('%Y-%m-%d') if settings else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="roster_length" class="form-label">Roster Length (days)</label>
+        <input type="number" class="form-control" id="roster_length" name="roster_length" value="{{ settings.roster_length if settings else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Settings</button>
+</form>
+{% endblock %}

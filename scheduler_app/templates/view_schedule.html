@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Generated Schedule</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            {% for employee in solution.employees %}
+            <th>{{ employee.name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for day in range(solution.assignments|length // (3 * solution.employees|length)) %}
+        <tr>
+            <td>{{ (start_date + timedelta(days=day)).strftime('%Y-%m-%d') }}</td>
+            {% for employee in solution.employees %}
+            <td>
+                {% for assignment in solution.assignments %}
+                {% if assignment.employee == employee and assignment.task.shift.date == start_date + timedelta(days=day) %}
+                {{ assignment.task.task_type }}: {{ assignment.task.shift.start_time.strftime('%H:%M') }}-{{ assignment.task.shift.end_time.strftime('%H:%M') }}<br>
+                {% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Day Off Requests</h2>
+<button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addDayOffRequestModal">
+    <i class="fas fa-plus"></i> Add Day Off Request
+</button>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in requests %}
+        <tr>
+            <td>{{ request.employee.name }}</td>
+            <td>{{ request.date.strftime('%Y-%m-%d') }}</td>
+            <td>
+                <button class="btn btn-sm btn-warning edit-day-off-request" data-id="{{ request.id }}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger delete-day-off-request" data-id="{{ request.id }}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Add Day Off Request Modal -->
+<div class="modal fade" id="addDayOffRequestModal" tabindex="-1" aria-labelledby="addDayOffRequestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDayOffRequestModalLabel">Add Day Off Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addDayOffRequestForm">
+                    <div class="mb-3">
+                        <label for="employee" class="form-label">Employee</label>
+                        <select class="form-select" id="employee" name="employee" required>
+                            {% for employee in employees %}
+                            <option value="{{ employee.id }}">{{ employee.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Day Off Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
